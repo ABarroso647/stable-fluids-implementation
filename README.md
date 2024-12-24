@@ -11,9 +11,9 @@ The core algorithm can be summarized in four main steps: **add force**,  **advec
 
 External forces, such as gravity or user-defined inputs, are applied to the velocity field. These forces are typically modeled as a simple addition to the velocity:
 
-\[$
-\mathbf{u}^{n+1} = \mathbf{u}^n + \Delta t \, \mathbf{f}
-$\]
+\[
+$\mathbf{u}^{n+1} = \mathbf{u}^n + \Delta t \, \mathbf{f}$
+\]
 
 where $\mathbf{f}$ represents the force field. This allows for dynamic interactions, such as swirling effects or controlled disturbances in the fluid.
 
@@ -33,7 +33,7 @@ $\mathbf{x}_{\text{prev}} = \mathbf{x} - \Delta t \, \mathbf{u}(\mathbf{x})$
 where:
 - \($\mathbf{x}$\) is the current grid point,
 - \($\Delta t$\) is the time step,
-- \($\mathbf{u}(\mathbf{x})$\) is the velocity at point \($\mathbf{x}$\).
+- $(\mathbf{u}(\mathbf{x}))$ is the velocity at point \($\mathbf{x}$\).
 
 The value of velocity or density at the current grid point is then interpolated from the surrounding grid values at \($\mathbf{x}_{\text{prev}}$\). In this implementation, `scipy.interpolate.interpn` is used for interpolation, ensuring smooth and accurate updates.
 For this impolementation instead of explicitly tracing the particle by applying RK2 over each cell and then applying a linear interpolation, 
@@ -48,8 +48,8 @@ This is less accurate than using an RK2, but is much simpler to implement and fo
 Diffusion accounts for the spreading of fluid quantities (like velocity) due to viscosity. 
 This process is modeled using the **heat equation**:
 
-\[$
-\frac{\partial \mathbf{u}}{\partial t} = \nu \nabla^2 \mathbf{u}$
+\[
+$\frac{\partial \mathbf{u}}{\partial t} = \nu \nabla^2 \mathbf{u}$
 \]
 
 where:
@@ -58,8 +58,8 @@ where:
 
 This step is implemented by solving the linear system that arises when discretizing the diffusion equation using finite differences:
 
-\[$
-\mathbf{u}^{n+1} - \nu \Delta t \nabla^2 \mathbf{u}^{n+1} = \mathbf{u}^n$
+\[
+$\mathbf{u}^{n+1} - \nu \Delta t \nabla^2 \mathbf{u}^{n+1} = \mathbf{u}^n$
 \]
 
 Here, $(\mathbf{u}^{n+1})$ represents the velocity after diffusion, and $(\mathbf{u}^n)$ is the velocity before diffusion. 
@@ -72,21 +72,21 @@ The Laplacian operator is approximated with finite differences on the grid.
 
 Projection ensures that the velocity field remains divergence-free, satisfying the incompressibility condition:
 
-\[$
-\nabla \cdot \mathbf{u} = 0.
+\[
+$\nabla \cdot \mathbf{u} = 0.
 $
 \]
 
 This step involves solving a **Poisson equation** for the pressure field \(p\):
 
-\[$
-\nabla^2 p = \frac{1}{\Delta t} \nabla \cdot \mathbf{u}$\]
+\[
+$\nabla^2 p = \frac{1}{\Delta t} \nabla \cdot \mathbf{u}$
+\]
 
 where $(\nabla \cdot \mathbf{u})$ is the divergence of the velocity field. Once $(p)$ is computed, the velocity field is corrected:
 
-\[$
-\mathbf{u}^{n+1} = \mathbf{u} - \Delta t \nabla p
-$
+\[
+$\mathbf{u}^{n+1} = \mathbf{u} - \Delta t \nabla p$
 \]
 
 The projection step removes any divergence introduced in the advection or diffusion steps. Like diffusion, this step also uses the Conjugate Gradient solver to compute the pressure field efficiently.
@@ -97,9 +97,8 @@ The projection step removes any divergence introduced in the advection or diffus
 
 To visualize fluid behavior intuitively, the **vorticity** (the curl of the velocity field) is computed:
 
-\[$
-\omega = \nabla \times \mathbf{u}.
-$
+\[
+$\omega = \nabla \times \mathbf{u}.$
 \]
 
 This highlights regions of rotation or swirling patterns in the fluid. The curl is approximated using discrete derivatives and used for animated visualizations with `plotly`.
@@ -107,13 +106,12 @@ This highlights regions of rotation or swirling patterns in the fluid. The curl 
 ---
 
 ### Boundary Conditions
+
 The paper defines two types of boundary conditions, periodic and fixed. Wherein period the fluid wraps around the edges
 For fixed boundary conditions it is most common to just set the velocity field to zero at the boundary. 
 So that is what this implementation does. This is achieved by setting the values at the edges of the arrays to zero.
+
 ---
-
-
-
 
 
 ## How to use it
