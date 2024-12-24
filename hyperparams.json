@@ -1,0 +1,12 @@
+{
+  "domain_size": 1.0,
+  "n_points": 200,
+  "n_time_steps": 200,
+  "time_steps_length": 0.1,
+  "kinematic_viscosity": 0.0001,
+  "max_iter": null,
+  "render_fps": 30,
+  "output_quiver": false,
+  "arrow_scale": 50,
+  "force_func_name": "bottom_inflow"
+}

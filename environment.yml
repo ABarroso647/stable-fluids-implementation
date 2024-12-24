@@ -1,0 +1,13 @@
+name: stable-fluids-impl
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - scipy
+  - matplotlib
+  - plotly
+  - imageio==2.36
+  - pip
+  - tqdm
